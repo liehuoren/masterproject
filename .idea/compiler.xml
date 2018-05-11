@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="master-admin" />
+        <module name="master-common" />
+        <module name="master-domain" />
+        <module name="master-model" />
+        <module name="master-persist" />
+        <module name="master-wechat" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="master-admin" target="1.7" />
+      <module name="master-common" target="1.7" />
+      <module name="master-domain" target="1.7" />
+      <module name="master-model" target="1.7" />
+      <module name="master-persist" target="1.7" />
+      <module name="master-wechat" target="1.7" />
+      <module name="masterparent" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

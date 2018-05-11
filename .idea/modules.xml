@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/master-admin/master-admin.iml" filepath="$PROJECT_DIR$/master-admin/master-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/master-common/master-common.iml" filepath="$PROJECT_DIR$/master-common/master-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/master-domain/master-domain.iml" filepath="$PROJECT_DIR$/master-domain/master-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/master-model/master-model.iml" filepath="$PROJECT_DIR$/master-model/master-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/master-persist/master-persist.iml" filepath="$PROJECT_DIR$/master-persist/master-persist.iml" />
+      <module fileurl="file://$PROJECT_DIR$/master-wechat/master-wechat.iml" filepath="$PROJECT_DIR$/master-wechat/master-wechat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/masterparent.iml" filepath="$PROJECT_DIR$/masterparent.iml" />
+    </modules>
+  </component>
+</project>

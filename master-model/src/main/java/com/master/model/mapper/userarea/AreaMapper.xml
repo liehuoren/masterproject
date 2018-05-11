@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserAreaMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		sys_area
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		pingyin,	
+		areaname,	
+		shortname,	
+		lng,	
+		lat,	
+		level,	
+		parentid,	
+		id
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{pingyin},	
+		#{areaname},	
+		#{shortname},	
+		#{lng},	
+		#{lat},	
+		#{level},	
+		#{parentid},	
+		#{id}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			id = #{id}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			pingyin = #{pingyin},
+			areaname = #{areaname},
+			shortname = #{shortname},
+			lng = #{lng},
+			lat = #{lat},
+			level = #{level},
+			parentid = #{parentid},
+		id = id
+		where 
+		id = #{id}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			id = #{id}
+	</select>
+	<!-- 通过父级ID获取数据 -->
+	<select id="findByParentidlist" parameterType="page" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+		<if test="null==pd.parentid">
+			1=2
+		</if>
+		<if test="null!=pd.parentid">
+			parentid = #{pd.parentid}
+		</if>
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		t.*,t1.areaname as parentname,t1.parentid as parent_par_id 
+		from 
+		<include refid="tableName"></include> t
+		LEFT JOIN sys_area t1 on t1.id=t.parentid
+		where 1=1
+		
+		<!-- 如果父级编号为空，则使用关键字+区域级别来检索数据 -->
+		<if test="pd.parentid==null or pd.parentid==''">
+			<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+				and
+					(
+						t.pingyin LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+						 or 
+						t.areaname LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+					)
+			</if>
+			<if test="pd.level!=null and pd.level!=''">
+				and t.level=${pd.level}
+			</if>
+		</if>
+		<!-- 如果父级编号不为空，则查询所有信息中匹配的父级编号数据 -->
+		<if test="pd.parentid!=null and pd.parentid!=''">
+			and t.parentid=${pd.parentid}
+		</if>
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+	</select>
+	<select id="getThirdAreaList" parameterType="pd" resultType="com.master.entity.area.Area">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		level=3 and id &lt; 1000000
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			id in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	<!-- 查询关系映射 -->
+	<select id="getRelationalById" parameterType="pd" resultType="pd">
+		select * from 
+		sys_area_relational
+		where relational_id = #{relational_id}
+	</select>
+	<!-- 新增关系映射-->
+	<insert id="saveRelational" parameterType="pd">
+		insert into 
+		sys_area_relational
+			(
+				relational_id,area_id
+			) values (
+				#{relational_id},#{area_id}
+			)
+	</insert>
+	<!-- 修改关系映射 -->
+	<update id="editRelational" parameterType="pd">
+		update
+		sys_area_relational
+		set 
+			area_id = #{area_id}
+		where 
+		relational_id = #{relational_id}
+	</update>	
+</mapper>
